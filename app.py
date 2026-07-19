@@ -34,8 +34,7 @@ def inicializar_agente():
                 documentos.extend(loader.load())
     
     if not documentos:
-        st.error("❌ No se encontraron documentos PDF en la carpeta data/")
-        st.stop()
+        return None  # No hay documentos, pero no detenemos la app
     
     # Dividir en chunks
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
@@ -57,9 +56,38 @@ def inicializar_agente():
     return qa_chain
 
 # Interfaz de chat
-try:
-    agente = inicializar_agente()
-    st.success("✅ Agente cargado correctamente")
+agente = inicializar_agente()
+
+if agente is None:
+    st.warning("⚠️ No se encontraron documentos PDF en la carpeta `data/`.")
+    st.info("""
+    Para que el agente funcione, sube los 5 PDFs de BimBam Buy a la carpeta `data/` 
+    y haz un nuevo deploy.
+    
+    **Documentos necesarios:**
+    - Política de Reembolsos y Devoluciones
+    - Programa de Afiliados
+    - Guía de Tiempos y Costos de Envío
+    - Preguntas Frecuentes sobre Métodos de Pago
+    - Manual de Garantía de Productos
+    """)
+    
+    # Demo: permite hacer preguntas a Gemini sin RAG
+    st.markdown("---")
+    st.markdown("### 🧪 Modo Demo (sin documentos)")
+    st.markdown("Puedes hacer preguntas generales a Gemini mientras subes los documentos:")
+    
+    pregunta_demo = st.text_input("💬 Pregunta a Gemini:", placeholder="¿Qué es BimBam Buy?")
+    
+    if pregunta_demo:
+        with st.spinner("🤔 Pensando..."):
+            llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.3, google_api_key=GOOGLE_API_KEY)
+            respuesta = llm.invoke(pregunta_demo)
+        st.markdown("### 💡 Respuesta")
+        st.write(respuesta.content)
+        
+else:
+    st.success("✅ Agente cargado correctamente con los documentos de BimBam Buy")
     
     pregunta = st.text_input("💬 Escribe tu pregunta:", placeholder="¿Cuál es la política de reembolsos?")
     
@@ -74,6 +102,3 @@ try:
             for i, doc in enumerate(respuesta["source_documents"], 1):
                 st.markdown(f"**Fuente {i}:** {os.path.basename(doc.metadata.get('source', 'Desconocida'))}")
                 st.text(doc.page_content[:300] + "...")
-                
-except Exception as e:
-    st.error(f"❌ Error: {str(e)}")
