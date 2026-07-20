@@ -1,6 +1,6 @@
 import os
 import streamlit as st
-import google.generativeai as genai
+import requests
 
 # Configuración de página
 st.set_page_config(page_title="🤖 Agente BimBam Buy", page_icon="🛒")
@@ -8,17 +8,14 @@ st.set_page_config(page_title="🤖 Agente BimBam Buy", page_icon="🛒")
 st.title("🤖 Agente BimBam Buy")
 st.markdown("Haz preguntas sobre políticas de reembolso, envíos, garantías, métodos de pago y programa de afiliados.")
 
-# API Key de Gemini
-GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY", "")
+# API Key de OpenRouter
+OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
 
-if not GOOGLE_API_KEY:
-    st.error("❌ No se encontró la API Key de Gemini.")
+if not OPENROUTER_API_KEY:
+    st.error("❌ No se encontró la API Key de OpenRouter.")
     st.stop()
 
-# Configurar Gemini
-genai.configure(api_key=GOOGLE_API_KEY)
-
-# Contexto de BimBam Buy (resumen de los documentos)
+# Contexto de BimBam Buy
 CONTEXTO_BIMBAM = """
 Eres un agente de atención al cliente de BimBam Buy, un e-commerce multiplataforma.
 Responde preguntas basándote en la siguiente información:
@@ -59,36 +56,52 @@ Responde preguntas basándote en la siguiente información:
 - Servicio técnico disponible en centros autorizados.
 """
 
-# Inicializar modelo
-@st.cache_resource
-def get_model():
-    return genai.GenerativeModel('gemini-2.0-flash')
-
-# Interfaz de chat
-try:
-    model = get_model()
-    st.success("✅ Agente BimBam Buy listo para responder")
+# Función para llamar a OpenRouter
+def llamar_openrouter(pregunta):
+    headers = {
+        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+        "Content-Type": "application/json"
+    }
     
-    pregunta = st.text_input("💬 Escribe tu pregunta:", placeholder="¿Cuál es la política de reembolsos?")
-    
-    if pregunta:
-        with st.spinner("🤔 Pensando..."):
-            # Crear prompt con contexto
-            prompt = f"""Basándote en la siguiente información de BimBam Buy, responde la pregunta del usuario.
+    prompt = f"""Basándote en la siguiente información de BimBam Buy, responde la pregunta del usuario.
 
 {CONTEXTO_BIMBAM}
 
 Pregunta del usuario: {pregunta}
 
 Responde de manera clara, concisa y profesional. Si la pregunta no puede responderse con la información proporcionada, indica que no tienes esa información."""
+    
+    data = {
+        "model": "meta-llama/llama-3.1-8b-instruct:free",
+        "messages": [
+            {"role": "user", "content": prompt}
+        ]
+    }
+    
+    response = requests.post(
+        "https://openrouter.ai/api/v1/chat/completions",
+        headers=headers,
+        json=data
+    )
+    
+    if response.status_code == 200:
+        return response.json()["choices"][0]["message"]["content"]
+    else:
+        raise Exception(f"Error {response.status_code}: {response.text}")
+
+# Interfaz de chat
+st.success("✅ Agente BimBam Buy listo para responder")
+
+pregunta = st.text_input("💬 Escribe tu pregunta:", placeholder="¿Cuál es la política de reembolsos?")
+
+if pregunta:
+    with st.spinner("🤔 Pensando..."):
+        try:
+            respuesta = llamar_openrouter(pregunta)
+            st.markdown("### 💡 Respuesta")
+            st.write(respuesta)
             
-            respuesta = model.generate_content(prompt)
-        
-        st.markdown("### 💡 Respuesta")
-        st.write(respuesta.text)
-        
-        with st.expander("📚 Ver contexto utilizado"):
-            st.text(CONTEXTO_BIMBAM)
-            
-except Exception as e:
-    st.error(f"❌ Error: {str(e)}")
+            with st.expander("📚 Ver contexto utilizado"):
+                st.text(CONTEXTO_BIMBAM)
+        except Exception as e:
+            st.error(f"❌ Error: {str(e)}")
