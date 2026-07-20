@@ -1,9 +1,3 @@
-langchain
-langchain-community
+streamlit
 langchain-google-genai
 google-generativeai
-pypdf
-pandas
-chromadb
-sentence-transformers
-streamlit
