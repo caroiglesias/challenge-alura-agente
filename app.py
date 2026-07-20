@@ -60,7 +60,7 @@ Responde preguntas basándote en la siguiente información:
 @st.cache_resource
 def get_llm():
     return ChatGoogleGenerativeAI(
-        model="gemini-1.5-flash",
+    model="gemini-1.5-flash-latest",
         temperature=0.3,
         google_api_key=GOOGLE_API_KEY
     )
