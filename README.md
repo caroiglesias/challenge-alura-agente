@@ -18,3 +18,10 @@ métodos de pago y programa de afiliados sin necesidad de abrir los documentos.
 - **Framework**: LangChain
 
 ## 📁 Estructura del Proyecto
+## 🚀 Deploy en la nube
+
+El agente está desplegado y funcionando en Render:
+
+🔗 **URL:** https://challenge-alura-agente.onrender.com/
+
+![Agente BimBam Buy funcionando](assets/respuesta.png)
