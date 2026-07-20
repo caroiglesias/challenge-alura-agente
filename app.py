@@ -1,6 +1,6 @@
 import os
 import streamlit as st
-import requests
+from groq import Groq
 
 # Configuración de página
 st.set_page_config(page_title="🤖 Agente BimBam Buy", page_icon="🛒")
@@ -8,11 +8,11 @@ st.set_page_config(page_title="🤖 Agente BimBam Buy", page_icon="🛒")
 st.title("🤖 Agente BimBam Buy")
 st.markdown("Haz preguntas sobre políticas de reembolso, envíos, garantías, métodos de pago y programa de afiliados.")
 
-# API Key de OpenRouter
-OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
+# API Key de Groq
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 
-if not OPENROUTER_API_KEY:
-    st.error("❌ No se encontró la API Key de OpenRouter.")
+if not GROQ_API_KEY:
+    st.error("❌ No se encontró la API Key de Groq.")
     st.stop()
 
 # Contexto de BimBam Buy
@@ -56,12 +56,14 @@ Responde preguntas basándote en la siguiente información:
 - Servicio técnico disponible en centros autorizados.
 """
 
-# Función para llamar a OpenRouter
-def llamar_openrouter(pregunta):
-    headers = {
-        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-        "Content-Type": "application/json"
-    }
+# Inicializar cliente Groq
+@st.cache_resource
+def get_client():
+    return Groq(api_key=GROQ_API_KEY)
+
+# Función para llamar a Groq
+def llamar_groq(pregunta):
+    client = get_client()
     
     prompt = f"""Basándote en la siguiente información de BimBam Buy, responde la pregunta del usuario.
 
@@ -71,23 +73,17 @@ Pregunta del usuario: {pregunta}
 
 Responde de manera clara, concisa y profesional. Si la pregunta no puede responderse con la información proporcionada, indica que no tienes esa información."""
     
-    data = {
-        "model": "meta-llama/llama-3.1-8b-instruct:free",
-        "messages": [
-            {"role": "user", "content": prompt}
-        ]
-    }
-    
-    response = requests.post(
-        "https://openrouter.ai/api/v1/chat/completions",
-        headers=headers,
-        json=data
+    chat_completion = client.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": prompt,
+            }
+        ],
+        model="llama-3.1-8b-instant",
     )
     
-    if response.status_code == 200:
-        return response.json()["choices"][0]["message"]["content"]
-    else:
-        raise Exception(f"Error {response.status_code}: {response.text}")
+    return chat_completion.choices[0].message.content
 
 # Interfaz de chat
 st.success("✅ Agente BimBam Buy listo para responder")
@@ -97,7 +93,7 @@ pregunta = st.text_input("💬 Escribe tu pregunta:", placeholder="¿Cuál es la
 if pregunta:
     with st.spinner("🤔 Pensando..."):
         try:
-            respuesta = llamar_openrouter(pregunta)
+            respuesta = llamar_groq(pregunta)
             st.markdown("### 💡 Respuesta")
             st.write(respuesta)
             
