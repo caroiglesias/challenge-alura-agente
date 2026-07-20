@@ -66,8 +66,26 @@ def get_llm():
     )
 
 # Interfaz de chat
-try:
-    llm = get_llm()
-    st.success("✅ Agente BimBam Buy listo para responder")
+llm = get_llm()
+st.success("✅ Agente BimBam Buy listo para responder")
+
+pregunta = st.text_input("💬 Escribe tu pregunta:", placeholder="¿Cuál es la política de reembolsos?")
+
+if pregunta:
+    with st.spinner("🤔 Pensando..."):
+        # Crear prompt con contexto
+        prompt = f"""Basándote en la siguiente información de BimBam Buy, responde la pregunta del usuario.
+
+{CONTEXTO_BIMBAM}
+
+Pregunta del usuario: {pregunta}
+
+Responde de manera clara, concisa y profesional. Si la pregunta no puede responderse con la información proporcionada, indica que no tienes esa información."""
+        
+        respuesta = llm.invoke(prompt)
     
-    pregunta = st.text_input("💬 Escribe tu pregunta:", placeholder="¿Cuál es la política de reembolsos?")
+    st.markdown("### 💡 Respuesta")
+    st.write(respuesta.content)
+    
+    with st.expander("📚 Ver contexto utilizado"):
+        st.text(CONTEXTO_BIMBAM)
