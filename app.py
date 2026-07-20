@@ -70,4 +70,4 @@ try:
     llm = get_llm()
     st.success("✅ Agente BimBam Buy listo para responder")
     
-    pregunta = st.text_input("💬 Escribe tu pregunta:", placeholder
+    pregunta = st.text_input("💬 Escribe tu pregunta:", placeholder="¿Cuál es la política de reembolsos?")
