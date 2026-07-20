@@ -1,6 +1,6 @@
 import os
 import streamlit as st
-from langchain_google_genai import ChatGoogleGenerativeAI
+import google.generativeai as genai
 
 # Configuración de página
 st.set_page_config(page_title="🤖 Agente BimBam Buy", page_icon="🛒")
@@ -14,6 +14,9 @@ GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY", "")
 if not GOOGLE_API_KEY:
     st.error("❌ No se encontró la API Key de Gemini.")
     st.stop()
+
+# Configurar Gemini
+genai.configure(api_key=GOOGLE_API_KEY)
 
 # Contexto de BimBam Buy (resumen de los documentos)
 CONTEXTO_BIMBAM = """
@@ -56,36 +59,36 @@ Responde preguntas basándote en la siguiente información:
 - Servicio técnico disponible en centros autorizados.
 """
 
-# Inicializar Gemini
+# Inicializar modelo
 @st.cache_resource
-def get_llm():
-    return ChatGoogleGenerativeAI(
-  model="gemini-pro",
-        temperature=0.3,
-        google_api_key=GOOGLE_API_KEY
-    )
+def get_model():
+    return genai.GenerativeModel('gemini-1.5-flash')
 
 # Interfaz de chat
-llm = get_llm()
-st.success("✅ Agente BimBam Buy listo para responder")
-
-pregunta = st.text_input("💬 Escribe tu pregunta:", placeholder="¿Cuál es la política de reembolsos?")
-
-if pregunta:
-    with st.spinner("🤔 Pensando..."):
-        # Crear prompt con contexto
-        prompt = f"""Basándote en la siguiente información de BimBam Buy, responde la pregunta del usuario.
+try:
+    model = get_model()
+    st.success("✅ Agente BimBam Buy listo para responder")
+    
+    pregunta = st.text_input("💬 Escribe tu pregunta:", placeholder="¿Cuál es la política de reembolsos?")
+    
+    if pregunta:
+        with st.spinner("🤔 Pensando..."):
+            # Crear prompt con contexto
+            prompt = f"""Basándote en la siguiente información de BimBam Buy, responde la pregunta del usuario.
 
 {CONTEXTO_BIMBAM}
 
 Pregunta del usuario: {pregunta}
 
 Responde de manera clara, concisa y profesional. Si la pregunta no puede responderse con la información proporcionada, indica que no tienes esa información."""
+            
+            respuesta = model.generate_content(prompt)
         
-        respuesta = llm.invoke(prompt)
-    
-    st.markdown("### 💡 Respuesta")
-    st.write(respuesta.content)
-    
-    with st.expander("📚 Ver contexto utilizado"):
-        st.text(CONTEXTO_BIMBAM)
+        st.markdown("### 💡 Respuesta")
+        st.write(respuesta.text)
+        
+        with st.expander("📚 Ver contexto utilizado"):
+            st.text(CONTEXTO_BIMBAM)
+            
+except Exception as e:
+    st.error(f"❌ Error: {str(e)}")
