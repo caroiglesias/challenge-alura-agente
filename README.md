@@ -22,4 +22,4 @@ El agente está desplegado y funcionando en Render:
 
 🔗 **URL:** https://challenge-alura-agente.onrender.com/
 
-![Agente BimBam Buy funcionando](assets/respuesta.png)
+![Agente BimBam Buy funcionando](respuesta.png)
