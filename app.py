@@ -62,7 +62,7 @@ Responde preguntas basándote en la siguiente información:
 # Inicializar modelo
 @st.cache_resource
 def get_model():
-    return genai.GenerativeModel('gemini-1.5-flash')
+    return genai.GenerativeModel('gemini-2.0-flash')
 
 # Interfaz de chat
 try:
