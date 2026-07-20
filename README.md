@@ -1,7 +1,7 @@
 # 🤖 Agente BimBam Buy - Challenge Alura Agente
 
-Agente de inteligencia artificial con RAG (Retrieval-Augmented Generation) 
-para responder preguntas sobre la documentación de BimBam Buy.
+Agente de inteligencia artificial para responder preguntas sobre 
+la documentación de BimBam Buy usando Llama 3.1 vía Groq API.
 
 ## 📋 Descripción del Proyecto
 
@@ -11,14 +11,12 @@ métodos de pago y programa de afiliados sin necesidad de abrir los documentos.
 
 ## 🏗️ Arquitectura
 
-- **Carga de documentos**: PyPDFLoader
-- **Embeddings**: HuggingFace (all-MiniLM-L6-v2) - Gratis
-- **Vector Store**: ChromaDB
-- **LLM**: Google Gemini 1.5 Flash - Gratis
-- **Framework**: LangChain
+- **Interfaz**: Streamlit
+- **LLM**: Llama 3.1 8B (vía Groq API) - Gratis
+- **Framework**: Python puro con Groq SDK
+- **Contexto**: Documentos de BimBam Buy en memoria
 
 ## 📁 Estructura del Proyecto
-## 🚀 Deploy en la nube
 
 El agente está desplegado y funcionando en Render:
 
