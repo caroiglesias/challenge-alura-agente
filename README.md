@@ -9,12 +9,16 @@ BimBam Buy es un e-commerce multiplataforma. Este agente permite a cualquier
 persona hacer preguntas sobre políticas de reembolso, envíos, garantías, 
 métodos de pago y programa de afiliados sin necesidad de abrir los documentos.
 
-## 🏗️ Arquitectura
+## 🏗️ Stack Tecnológico
 
-- **Interfaz**: Streamlit
-- **LLM**: Llama 3.1 8B (vía Groq API) - Gratis
-- **Framework**: Python puro con Groq SDK
-- **Contexto**: Documentos de BimBam Buy en memoria
+| Capa | Tecnología | Descripción |
+|------|-----------|-------------|
+| **Frontend** | Streamlit | Interfaz web interactiva para el chatbot |
+| **LLM** | Llama 3.1 8B (vía Groq API) | Modelo de lenguaje gratuito y rápido |
+| **Framework** | Python 3.10+ | Lógica de la aplicación |
+| **Contexto** | Documentos en memoria | Información de BimBam Buy cargada en el prompt |
+| **Deploy** | Render (Free Tier) | Plataforma de hosting gratuita |
+| **API Key** | Groq | Proveedor de API para modelos LLM gratuitos |
 
 ## 📁 Estructura del Proyecto
 
