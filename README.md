@@ -177,3 +177,10 @@ Aqui tienes algunos ejemplos de consultas que puedes hacerle al asistente:
 > - 6 meses en accesorios.
 > - Solo defectos de fabricacion, no danos por mal uso.
 > - Para hacerla valida, debes presentar la factura de compra.
+>
+
+## ⚠️ Notas Importantes
+
+- Plan gratuito de Render: La aplicacion "se duerme" despues de 15 minutos de inactividad. La primera vez que alguien la abre despues de dormirse, tarda aproximadamente 30-50 segundos en despertar.
+- Sin RAG tradicional: Este proyecto usa contexto en memoria en lugar de una base de datos vectorial (ChromaDB) debido a las limitaciones de RAM del plan gratuito de Render y el tamano de los archivos PDF.
+- Documentacion base: Las respuestas del agente se basan en 5 documentos PDF de BimBam Buy que cubren reembolsos, afiliados, metodos de pago, envios y garantias.
