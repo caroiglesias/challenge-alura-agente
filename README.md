@@ -188,3 +188,8 @@ Aqui tienes algunos ejemplos de consultas que puedes hacerle al asistente:
 ## 📝 Licencia
 
 Este proyecto fue creado con fines educativos para el Challenge Alura Agente - ONE IA FOR TECH.
+
+## 👤 Contacto
+
+- Autor: Laura Carolina Iglesias Anguiano
+- Challenge: Alura Agente - ONE IA FOR TECH
