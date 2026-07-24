@@ -87,3 +87,39 @@ challenge-alura-agente/
 - respuesta.png             # Evidencia del deploy funcionando
 
 
+## 🚀 Guía de Instalación Local
+
+Sigue estos pasos para ejecutar el proyecto en tu computadora.
+
+### 1. Clonar el repositorio
+
+git clone https://github.com/caroiglesias/challenge-alura-agente.git
+cd challenge-alura-agente
+
+### 2. Crear entorno virtual (Recomendado)
+
+python -m venv venv
+
+En Windows:
+venv\Scripts\activate
+
+En Mac/Linux:
+source venv/bin/activate
+
+### 3. Instalar dependencias
+
+pip install -r requirements.txt
+
+### 4. Configurar variables de entorno
+
+Crea un archivo .env en la raíz del proyecto o exporta la variable directamente:
+
+export GROQ_API_KEY="tu-clave-de-groq-aqui"
+
+Obtén tu API Key gratuita en: https://console.groq.com/keys
+
+### 5. Ejecutar la aplicación
+
+streamlit run app.py
+
+La aplicación se abrirá automáticamente en tu navegador en: http://localhost:8501
