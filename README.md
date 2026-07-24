@@ -72,3 +72,17 @@ El agente responde preguntas de manera clara, concisa y profesional basándose e
 
 ## 📁 Estructura del Proyecto
 
+challenge-alura-agente/
+├── README.md                 # Este archivo
+├── requirements.txt          # Dependencias del proyecto
+├── app.py                    # Aplicación principal (Streamlit + Groq)
+├── bim_bam_buy_agent.ipynb   # Notebook original del desarrollo
+├── data/                     # Documentos PDF de BimBam Buy
+│   ├── afiliados.pdf
+│   ├── manual_garantias.pdf
+│   ├── preguntas_frecuentes.pdf
+│   ├── reembolsos_devoluciones.pdf
+│   └── tiempos_costos.pdf
+├── agente_bimbam.jpg         # Captura de la interfaz
+└── respuesta.png             # Evidencia del deploy funcionando
+
