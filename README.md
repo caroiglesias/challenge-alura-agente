@@ -123,3 +123,15 @@ Obtén tu API Key gratuita en: https://console.groq.com/keys
 streamlit run app.py
 
 La aplicación se abrirá automáticamente en tu navegador en: http://localhost:8501
+
+## 🌐 Deploy en Render
+
+### Pasos para desplegar:
+
+1. Conecta tu repositorio de GitHub a Render
+2. Configura:
+   - Build Command: pip install -r requirements.txt
+   - Start Command: streamlit run app.py
+3. Agrega la variable de entorno GROQ_API_KEY
+4. Listo! Render hara el deploy automaticamente
+
