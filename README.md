@@ -135,3 +135,45 @@ La aplicación se abrirá automáticamente en tu navegador en: http://localhost:
 3. Agrega la variable de entorno GROQ_API_KEY
 4. Listo! Render hara el deploy automaticamente
 
+
+## 💡 Ejemplos de Preguntas y Respuestas
+
+Aqui tienes algunos ejemplos de consultas que puedes hacerle al asistente:
+
+**Ejemplo 1 (Politica de Reembolsos):**
+> Usuario: Cual es la politica de reembolsos?
+> 
+> Agente: La politica de reembolsos y devoluciones de BimBam Buy es la siguiente:
+> - Los clientes tienen un plazo de 30 dias desde la fecha de recepcion para devolver productos.
+> - Los productos deben estar en su empaque original y sin usar.
+> - Los reembolsos se procesan en 5-10 dias habiles.
+> - Los gastos de envio de devolucion corren por cuenta del cliente, excepto si el producto llego defectuoso.
+> - Para iniciar una devolucion, es necesario contactar a soporte@bimbambuy.com.
+
+**Ejemplo 2 (Programa de Afiliados):**
+> Usuario: Como funciona el programa de afiliados?
+> 
+> Agente: El programa de afiliados de BimBam Buy ofrece:
+> - Comision del 10% por cada venta generada.
+> - Pagos mensuales via transferencia bancaria o PayPal.
+> - Minimo de $50 para retirar comisiones.
+> - Acceso a panel de control con estadisticas en tiempo real.
+
+**Ejemplo 3 (Metodos de Pago):**
+> Usuario: Cuales son los metodos de pago aceptados?
+> 
+> Agente: BimBam Buy acepta los siguientes metodos de pago:
+> - Tarjetas de credito y debito (Visa, Mastercard, American Express)
+> - PayPal
+> - Transferencia bancaria
+> - Pago contra entrega (solo en ciertas zonas)
+> - Mercado Pago (Latinoamerica)
+
+**Ejemplo 4 (Garantia):**
+> Usuario: Que cubre la garantia de los productos?
+> 
+> Agente: La garantia de BimBam Buy cubre:
+> - 1 ano en todos los productos electronicos.
+> - 6 meses en accesorios.
+> - Solo defectos de fabricacion, no danos por mal uso.
+> - Para hacerla valida, debes presentar la factura de compra.
